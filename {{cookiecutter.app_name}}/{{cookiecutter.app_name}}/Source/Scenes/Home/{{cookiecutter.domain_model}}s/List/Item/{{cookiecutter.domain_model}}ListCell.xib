@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="{{cookiecutter.domain_model}}ListCellIdentifier" id="sDS-VA-PUw" customClass="{{cookiecutter.domain_model}}ListCell" customModule="eigami" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="100" height="150"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                <rect key="frame" x="0.0" y="0.0" width="100" height="150"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pyX-PD-b6d">
+                        <rect key="frame" x="0.0" y="0.0" width="100" height="150"/>
+                    </imageView>
+                </subviews>
+            </view>
+            <color key="backgroundColor" red="1" green="0.2089190906" blue="0.080796915669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="pyX-PD-b6d" firstAttribute="top" secondItem="sDS-VA-PUw" secondAttribute="top" id="BE3-nU-qqe"/>
+                <constraint firstItem="pyX-PD-b6d" firstAttribute="leading" secondItem="sDS-VA-PUw" secondAttribute="leading" id="LHa-mp-pxc"/>
+                <constraint firstAttribute="trailing" secondItem="pyX-PD-b6d" secondAttribute="trailing" id="Wea-pf-RCp"/>
+                <constraint firstAttribute="bottom" secondItem="pyX-PD-b6d" secondAttribute="bottom" id="aTS-C3-4zr"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="NIa-xf-9vd"/>
+            <connections>
+                <outlet property="posterImageView" destination="pyX-PD-b6d" id="Knd-Pa-lnT"/>
+            </connections>
+        </collectionViewCell>
+    </objects>
+</document>

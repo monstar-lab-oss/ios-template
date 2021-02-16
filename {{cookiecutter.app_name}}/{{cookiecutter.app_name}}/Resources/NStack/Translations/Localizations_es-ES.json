@@ -1,0 +1,24 @@
+{
+  "data" : {
+    "default" : {
+      "loginPlease" : "¡Únete a YoYo Cinema, la base de datos de películas abierta y gratuita dirigida por millones de usuarios como tú!",
+      "loginThanks" : "Gracias",
+      "profileFirstName" : "Nombre",
+      "profileLastName" : "Apellidos"
+    }
+  },
+  "meta" : {
+    "language" : {
+      "direction" : "LRM",
+      "id" : 14,
+      "is_best_fit" : false,
+      "is_default" : false,
+      "locale" : "es-ES",
+      "name" : "Spanish (Spain)"
+    },
+    "platform" : {
+      "id" : 344,
+      "slug" : "mobile"
+    }
+  }
+}

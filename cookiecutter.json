@@ -1,0 +1,7 @@
+{
+    "app_name": "AwesomeApp",
+    "company_name": "Monstar-Lab Inc.",
+    "bundle_identifier": "com.monstar-lab.ios.template",
+    "lead_dev_name": "Your Name",
+    "domain_model": "ToDo"
+}

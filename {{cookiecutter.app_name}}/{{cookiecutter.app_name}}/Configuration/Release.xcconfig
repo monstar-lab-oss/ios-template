@@ -1,0 +1,7 @@
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+#include "Pods/Target Support Files/Pods-{{cookiecutter.app_name}}/Pods-{{cookiecutter.app_name}}.release.xcconfig"
+
+BUNDLE_IDENTIFIER = {{cookiecutter.bundle_identifier}}
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = RELEASE
+APP_NAME = {{cookiecutter.app_name}}

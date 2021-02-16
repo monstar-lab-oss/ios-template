@@ -1,0 +1,8 @@
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+#include "Pods/Target Support Files/Pods-{{cookiecutter.app_name}}/Pods-{{cookiecutter.app_name}}.debug.xcconfig"
+
+BUNDLE_IDENTIFIER = {{cookiecutter.bundle_identifier}}.dev
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG
+OTHER_SWIFT_FLAGS = -Xfrontend -warn-long-function-bodies=100
+APP_NAME = [Dev]{{cookiecutter.app_name}}
