@@ -12,12 +12,14 @@ public struct {{cookiecutter.domain_model}}: Codable {
     // Required
     public let id: Int
     public let title: String
+    public let posterPath: String?
     // Optionals
     public private(set) var status: String?
 
-    public init(id: Int, title: String, status: String? = nil) {
+    public init(id: Int, title: String, posterPath: String?, status: String? = nil) {
         self.id = id
         self.title = title
+        self.posterPath = posterPath
         self.status = status
     }
 }
