@@ -9,6 +9,10 @@
 import Combine
 import UIKit.UIViewController
 
+enum {{cookiecutter.domain_model}}DetailRoute {
+
+}
+
 class {{cookiecutter.domain_model}}DetailCoordinator: NavigationCoordinator {
 
     struct SceneDependencies {
@@ -36,5 +40,12 @@ class {{cookiecutter.domain_model}}DetailCoordinator: NavigationCoordinator {
             )
         )
         self.navigationController.pushViewController(scene.viewController, animated: true)
+    }
+}
+
+extension {{cookiecutter.domain_model}}DetailCoordinator: Coordinatable {
+
+    func coordinate(to route: {{cookiecutter.domain_model}}DetailRoute) {
+
     }
 }
