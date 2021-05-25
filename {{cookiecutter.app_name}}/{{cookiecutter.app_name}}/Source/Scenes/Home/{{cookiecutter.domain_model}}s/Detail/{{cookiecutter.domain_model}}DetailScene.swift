@@ -10,19 +10,23 @@ import UIKit.UIViewController
 import UIKit.UIStoryboard
 
 final class {{cookiecutter.domain_model}}DetailScene: Scene {
+    // MARK: - Properties
     private let vc: {{cookiecutter.domain_model}}DetailViewController!
+    
+    // MARK: - Init
     init(dependencies: Dependencies) {
-        let storyboard = UIStoryboard(name: "{{cookiecutter.domain_model}}Detail", bundle: nil)
-        vc = storyboard.instantiateInitialViewController() as? {{cookiecutter.domain_model}}DetailViewController
-        vc.viewModel = dependencies.viewModel
-        vc.viewModel?.coordinator = dependencies.coordinator
+        vc = {{cookiecutter.domain_model}}DetailViewController.instantiate(
+            with: {{cookiecutter.domain_model}}DetailViewModel(
+                {{cookiecutter.domain_model|lower}}Id: dependencies.{{cookiecutter.domain_model|lower}}Id
+            )
+        )
     }
 }
 
+// MARK: - Scene Protocol
 extension {{cookiecutter.domain_model}}DetailScene {
     struct Dependencies {
-        let coordinator: AnyCoordinatable<{{cookiecutter.domain_model}}DetailRoute>
-        let viewModel: {{cookiecutter.domain_model}}DetailViewModel
+        let {{cookiecutter.domain_model|lower}}Id: Int
     }
 
     var viewController: UIViewController {

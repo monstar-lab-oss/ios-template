@@ -17,29 +17,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="yIT-pz-zBI">
-                                <rect key="frame" x="0.0" y="44" width="414" height="808"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ss9-91-qqi">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="u1r-OE-gPc">
-                                    <size key="itemSize" width="120" height="128"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells/>
-                            </collectionView>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Sp8-Ui-JWO"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="yIT-pz-zBI" firstAttribute="top" secondItem="Sp8-Ui-JWO" secondAttribute="top" id="RzV-Pc-Zde"/>
-                            <constraint firstItem="Sp8-Ui-JWO" firstAttribute="trailing" secondItem="yIT-pz-zBI" secondAttribute="trailing" id="dy0-8m-jfK"/>
-                            <constraint firstItem="yIT-pz-zBI" firstAttribute="leading" secondItem="Sp8-Ui-JWO" secondAttribute="leading" id="hhl-dq-YET"/>
-                            <constraint firstItem="Sp8-Ui-JWO" firstAttribute="bottom" secondItem="yIT-pz-zBI" secondAttribute="bottom" constant="10" id="pnq-BN-EnX"/>
+                            <constraint firstItem="Sp8-Ui-JWO" firstAttribute="trailing" secondItem="Ss9-91-qqi" secondAttribute="trailing" id="CXY-rA-uU5"/>
+                            <constraint firstItem="Ss9-91-qqi" firstAttribute="leading" secondItem="Sp8-Ui-JWO" secondAttribute="leading" id="Kdi-qC-U0h"/>
+                            <constraint firstItem="Sp8-Ui-JWO" firstAttribute="bottom" secondItem="Ss9-91-qqi" secondAttribute="bottom" id="lo1-H9-3kL"/>
+                            <constraint firstItem="Ss9-91-qqi" firstAttribute="top" secondItem="Sp8-Ui-JWO" secondAttribute="top" id="lu1-3v-XDt"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="collectionView" destination="yIT-pz-zBI" id="t27-HW-D2l"/>
+                        <outlet property="tableView" destination="Ss9-91-qqi" id="i3N-wg-HNn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nrV-w3-WCe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

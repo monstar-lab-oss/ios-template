@@ -5,26 +5,32 @@
 //  Created by {{cookiecutter.lead_dev_name}} on {% now 'local' %}.
 //  Copyright © {% now 'local', '%Y' %} {{cookiecutter.company_name}} All rights reserved.
 //
+
 import UIKit.UIViewController
 import UIKit.UIStoryboard
 
 final class {{cookiecutter.domain_model}}ListScene {
+    // MARK: - Properties
     private let vc: {{cookiecutter.domain_model}}ListViewController!
+    
+    // MARK: - Init
     init(dependencies: Dependencies) {
-        let storyboard = UIStoryboard(name: "{{cookiecutter.domain_model}}List", bundle: nil)
-        vc = storyboard.instantiateInitialViewController() as? {{cookiecutter.domain_model}}ListViewController
-        vc.viewModel = dependencies.viewModel
-        vc.viewModel?.coordinator = dependencies.coordinator
+        vc = {{cookiecutter.domain_model}}ListViewController.instantiate(
+            with: {{cookiecutter.domain_model}}ListViewModel(
+                coordinator: dependencies.coordinator
+            )
+        )
     }
 }
 
+// MARK: - Scene Protocol
 extension {{cookiecutter.domain_model}}ListScene: Scene {
     struct Dependencies {
-        let coordinator: AnyCoordinatable<{{cookiecutter.domain_model}}ListCoordinator.Route>
-        let viewModel: {{cookiecutter.domain_model}}ListViewModel
+        let coordinator: AnyCoordinatable<{{cookiecutter.domain_model}}ListRoute>
     }
 
     var viewController: UIViewController {
         return vc
     }
 }
+

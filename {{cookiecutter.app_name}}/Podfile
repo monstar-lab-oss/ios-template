@@ -13,7 +13,9 @@ target '{{cookiecutter.app_name}}' do
   pod 'NStackSDK', '~> 5.0'
   
   # External
-  pod 'Kingfisher', '~> 6.0'
+  # pod 'Kingfisher', '~> 6.0'
+  pod 'CombineCocoa'
+  pod 'CombineExt'
 
   post_install do |installer|
     installer.pods_project.targets.each do |target|

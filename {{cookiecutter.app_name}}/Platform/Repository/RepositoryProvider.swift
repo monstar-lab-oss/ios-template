@@ -22,7 +22,8 @@ final class RepositoryProvider {
         {{cookiecutter.domain_model}}sRepository(
             repository: .init(
                 baseURL: baseURL,
-                network: network
+                network: network,
+                endpoint: Endpoints.{{cookiecutter.domain_model|lower}}s
             )
         )
     }

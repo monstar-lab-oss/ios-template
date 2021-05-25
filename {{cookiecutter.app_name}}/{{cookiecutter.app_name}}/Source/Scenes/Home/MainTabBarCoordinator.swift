@@ -1,5 +1,5 @@
 //
-//  HomeTabBarCoordinator.swift
+//  MainTabBarCoordinator.swift
 //  {{cookiecutter.app_name}}
 //
 //  Created by {{cookiecutter.lead_dev_name}} on {% now 'local' %}.
@@ -9,14 +9,14 @@
 import UIKit
 import Combine
 
-final class HomeTabBarCoordinator: TabBarCoordinator {
+final class MainTabBarCoordinator: TabBarCoordinator {
     enum Tab {
         case search
-        case {{cookiecutter.domain_model}}List
+        case PostList
     }
 
     override func start() {
-        [.search, .{{cookiecutter.domain_model}}List].forEach(createTab)
+        [.search, .PostList].forEach(createTab)
         let viewControllers = childCoordinators.compactMap {
             $0.viewController
         }
@@ -30,8 +30,8 @@ final class HomeTabBarCoordinator: TabBarCoordinator {
             addChild(coordinator)
             coordinator.start()
             coordinator.viewController.tabBarItem = tab.tabBarItem
-        case .{{cookiecutter.domain_model}}List:
-            let coordinator = {{cookiecutter.domain_model}}ListCoordinator()
+        case .PostList:
+            let coordinator = PostListCoordinator()
             addChild(coordinator)
             coordinator.start()
             coordinator.parentCoordinator = self.eraseToAnyCoordinator()
@@ -40,14 +40,14 @@ final class HomeTabBarCoordinator: TabBarCoordinator {
     }
 }
 
-extension HomeTabBarCoordinator.Tab {
+extension MainTabBarCoordinator.Tab {
 
     var tabBarItem: UITabBarItem {
         switch self {
         case .search:
             return UITabBarItem(title: "Search", systemName: "magnifyingglass", tag: 0)
-        case .{{cookiecutter.domain_model}}List:
-            return UITabBarItem(title: "{{cookiecutter.domain_model|upper}}s", systemName: "rectangle.grid.2x2.fill", tag: 1)
+        case .PostList:
+            return UITabBarItem(title: "POSTs", systemName: "rectangle.grid.2x2.fill", tag: 1)
         }
     }
 }

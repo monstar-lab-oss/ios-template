@@ -28,12 +28,13 @@ final class AppCoordinator: CoordinatorType {
 
     func start() {
         App.Style.setup()
-        let coordinator = HomeTabBarCoordinator()
+        let coordinator = MainTabBarCoordinator()
         addChild(coordinator)
         coordinator.parentCoordinator = self.eraseToAnyCoordinator()
         coordinator.start()
         let rootVC = coordinator.viewController
-        transitionTo(rootVC)
+        self.window.rootViewController = rootVC
+        self.window.makeKeyAndVisible()
     }
 
     func addChild(_ coordinator: CoordinatorType) {
@@ -44,16 +45,4 @@ final class AppCoordinator: CoordinatorType {
         guard let index = childCoordinators.firstIndex(where: { $0 === coordinator }) else { return }
         childCoordinators.remove(at: index)
     }
-}
-
-private extension AppCoordinator {
-
-    func transitionTo(_ controller: UIViewController) {
-        UIView.transition(with: self.window, duration: 0.2, options: .transitionCrossDissolve, animations: {
-            self.window.rootViewController = controller
-            self.window.makeKeyAndVisible()
-        }) { _ in
-            print("window transition completed")
-        }
-   }
 }

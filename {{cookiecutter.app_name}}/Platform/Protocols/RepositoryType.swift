@@ -9,16 +9,17 @@
 import Domain
 import Combine
 
-public enum RepositoryError: Error {
+enum RepositoryError: Error {
     case queryFailed(Error)
     case saveFailed
     case deleteFailed
 }
 
-public protocol RepositoryType: class {
+protocol RepositoryType: class {
     associatedtype T
     func queryAll(_ completion: @escaping (Result<[T], Error>) -> Void)
-    func query(with queryString: String, completion: @escaping (Result<[T], Error>) -> Void)
+    func query(withId id: Int, completion: @escaping (Result<T, Error>) -> Void)
+    func query(withQueryItems queryItems: [URLQueryItem], completion: @escaping (Result<[T], Error>) -> Void)
     func save(entity: T, completion: @escaping (Error?) -> Void)
     func delete(entity: T, completion: @escaping (Error?) -> Void)
 }
@@ -29,9 +30,17 @@ extension RepositoryType where Self: Combinable {
         Future(queryAll).eraseToAnyPublisher()
     }
 
-    func queryPublisher(for queryString: String) -> AnyPublisher<[T], Error> {
+    func queryPublisher(forId id: Int) -> AnyPublisher<T, Error> {
         Future { promise in
-            self.query(with: queryString) { result in
+            self.query(withId: id) { result in
+                promise(result)
+            }
+        }.eraseToAnyPublisher()
+    }
+
+    func queryPublisher(forQueryItems queryItems: [URLQueryItem]) -> AnyPublisher<[T], Error> {
+        Future { promise in
+            self.query(withQueryItems: queryItems) { result in
                 promise(result)
             }
         }.eraseToAnyPublisher()

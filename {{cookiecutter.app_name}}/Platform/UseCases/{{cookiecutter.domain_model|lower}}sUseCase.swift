@@ -22,10 +22,10 @@ final class {{cookiecutter.domain_model}}sUseCase: Domain.{{cookiecutter.domain_
     }
 
     func fetch(with id: Int) -> AnyPublisher<{{cookiecutter.domain_model}}, Error> {
-        repository.fetch{{cookiecutter.domain_model}}(with: id)
+        repository.fetch(withId: id)
     }
 
     func search(with name: String) -> AnyPublisher<[{{cookiecutter.domain_model}}], Error> {
-        repository.search{{cookiecutter.domain_model}}(with: name)
+        repository.search(with: name)
     }
 }

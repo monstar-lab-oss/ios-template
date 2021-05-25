@@ -9,11 +9,12 @@
 import Domain
 import Combine
 
-class RemoteRepository<E: Endpoint>: RepositoryType, Combinable {
+class RemoteRepository<T: Codable>: RepositoryType, Combinable {
 
     let network: Networking
 
     private let baseURL: URL
+    private let endpoint: Endpoint
     private let decoder: JSONDecoder = {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
@@ -23,22 +24,23 @@ class RemoteRepository<E: Endpoint>: RepositoryType, Combinable {
         return decoder
     }()
     private var endpointURL: URL {
-        baseURL.appendingPathComponent(E.relativePath)
+        baseURL.appendingPathComponent(endpoint.relativePath)
     }
 
-    public init(baseURL: URL, network: Networking) {
+    init(baseURL: URL, network: Networking, endpoint: Endpoint) {
         self.baseURL = baseURL
         self.network = network
+        self.endpoint = endpoint
     }
 
-    func queryAll(_  completion: @escaping (Result<[E.Resource], Error>) -> Void) {
+    func queryAll(_  completion: @escaping (Result<[T], Error>) -> Void) {
         let request = URLRequest(url: self.endpointURL)
         network.send(request) { result in
             switch result {
             case .success(let data):
                 do {
-                    let list = try self.decoder.decode(List<E.Resource>.self, from: data)
-                    completion(.success(list.results))
+                    let list = try self.decoder.decode([T].self, from: data)
+                    completion(.success(list))
                 } catch let error {
                     completion(.failure(error)) // DecodingError
                 }
@@ -48,13 +50,30 @@ class RemoteRepository<E: Endpoint>: RepositoryType, Combinable {
         }
     }
 
-    func query(with queryString: String, completion: @escaping (Result<[E.Resource], Error>) -> Void) {
-        guard var urlComponents = URLComponents(string: baseURL.absoluteString) else {
+    func query(withId id: Int, completion: @escaping (Result<T, Error>) -> Void) {
+        let url = self.endpointURL.appendingPathComponent("\(id)")
+        let request = URLRequest(url: url)
+        network.send(request) { result in
+            switch result {
+            case .success(let data):
+                do {
+                    let item = try self.decoder.decode(T.self, from: data)
+                    completion(.success(item))
+                } catch let error {
+                    completion(.failure(error)) // DecodingError
+                }
+            case .failure(let error):
+                completion(.failure(error)) // NetworkError
+            }
+        }
+    }
+
+    func query(withQueryItems queryItems: [URLQueryItem], completion: @escaping (Result<[T], Error>) -> Void) {
+        guard var urlComponents = URLComponents(url: endpointURL, resolvingAgainstBaseURL: false) else {
             return completion(.failure(URLError(.badURL)))
         }
 
-        urlComponents.path = E.relativePath
-        urlComponents.query = queryString
+        urlComponents.queryItems?.append(contentsOf: queryItems)
 
         guard let url = urlComponents.url else {
             return completion(.failure(URLError(.badURL)))
@@ -65,7 +84,7 @@ class RemoteRepository<E: Endpoint>: RepositoryType, Combinable {
             switch result {
             case .success(let data):
                 do {
-                    let list = try self.decoder.decode(List<E.Resource>.self, from: data)
+                    let list = try self.decoder.decode(List<T>.self, from: data)
                     completion(.success(list.results))
                 } catch let error {
                     completion(.failure(error)) // DecodingError
@@ -76,10 +95,10 @@ class RemoteRepository<E: Endpoint>: RepositoryType, Combinable {
         }
     }
 
-    func save(entity: E.Resource, completion: @escaping (Error?) -> Void) {
-        let url = baseURL.appendingPathComponent(E.relativePath)
+    func save(entity: T, completion: @escaping (Error?) -> Void) {
+        let url = baseURL.appendingPathComponent(endpoint.relativePath)
         var request = URLRequest(url: url)
-        request.httpMethod = E.method.rawValue
+        request.httpMethod = HTTPMethod.post.rawValue // TODO: What about update PATCH?
         request.httpBody = try? JSONEncoder().encode(entity)
         self.network.send(request) { result in
             switch result {
@@ -99,8 +118,8 @@ class RemoteRepository<E: Endpoint>: RepositoryType, Combinable {
         }
     }
 
-    func delete(entity: E.Resource, completion: @escaping (Error?) -> Void) {
-        let url = baseURL.appendingPathComponent(E.relativePath)
+    func delete(entity: T, completion: @escaping (Error?) -> Void) {
+        let url = baseURL.appendingPathComponent(endpoint.relativePath)
         let request = URLRequest(url: url)
         self.network.send(request) { result in
             switch result {
@@ -124,4 +143,20 @@ class RemoteRepository<E: Endpoint>: RepositoryType, Combinable {
 private struct List<T: Decodable>: Decodable {
     let totalPages: Int
     let results: [T]
+}
+
+private extension URL {
+
+    func queryItemAdded(name: String, value: String?) -> URL? {
+        return self.queryItemsAdded([URLQueryItem(name: name, value: value)])
+    }
+
+    func queryItemsAdded(_ queryItems: [URLQueryItem]) -> URL? {
+        guard var components = URLComponents(url: self, resolvingAgainstBaseURL: nil != self.baseURL) else {
+            return nil
+        }
+        components.queryItems = queryItems + (components.queryItems ?? [])
+        return components.url
+    }
+
 }

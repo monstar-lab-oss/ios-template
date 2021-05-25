@@ -8,11 +8,11 @@
 
 import UIKit
 import Combine
+import CombineCocoa
 
 class LoginViewController: UIViewController {
 
-    var viewModel = LoginViewModel()
-
+    // MARK: - Outlets
     @IBOutlet private weak var loginHeaderLabel: UILabel! {
         didSet {
             loginHeaderLabel.font = UIFont.preferredFont(forTextStyle: .headline)
@@ -32,15 +32,32 @@ class LoginViewController: UIViewController {
         }
     }
     @IBOutlet private weak var scrollView: UIScrollView!
+    
+    // MARK: - Properties
+    private var viewModel: LoginViewModel!
     private var cancellables = Set<AnyCancellable>()
+    
+    // MARK: - Init
+    class func instantiate(with viewModel: LoginViewModel) -> LoginViewController {
+        let name = "Login"
+        let storyboard = UIStoryboard(name: name, bundle: nil)
 
+        guard let vc = storyboard.instantiateInitialViewController() as? LoginViewController else {
+            preconditionFailure("Unable to instantiate a LoginViewController with the name \(name)")
+        }
+
+        vc.viewModel = viewModel
+        return vc
+    }
+    
+    // MARK: - View Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
 
         let viewModelInput = LoginViewModel.Input(
-            username: userNameTextField.textPublisher(),
-            password: passwordTextField.textPublisher(),
-            doLogin: loginButton.tapPublisher()
+            username: userNameTextField.textPublisher,
+            password: passwordTextField.textPublisher,
+            doLogin: loginButton.tapPublisher
         )
 
         let viewModelOutput = viewModel.transform(viewModelInput)

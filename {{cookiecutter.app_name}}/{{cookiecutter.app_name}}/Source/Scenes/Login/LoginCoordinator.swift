@@ -7,10 +7,8 @@
 //
 
 import UIKit
-import Combine
 
 enum LoginRoute {
-    case login
     case signUp
     case forgotPassword
 }
@@ -19,14 +17,9 @@ class LoginCoordinator: NavigationCoordinator {
 
     override func start() {
         super.start()
-        showLogin()
-    }
-
-    private func showLogin() {
         let scene = LoginScene(
             dependencies: .init(
-                coordinator: self.eraseToAnyCoordinatable(),
-                viewModel: LoginViewModel()
+                coordinator: self.eraseToAnyCoordinatable()
             )
         )
         self.navigationController.setViewControllers([scene.viewController], animated: false)
@@ -43,8 +36,6 @@ extension LoginCoordinator: Coordinatable {
 
     func coordinate(to route: LoginRoute) {
         switch route {
-        case .login:
-            showLogin()
         case .signUp:
             showSignUp()
         case .forgotPassword:

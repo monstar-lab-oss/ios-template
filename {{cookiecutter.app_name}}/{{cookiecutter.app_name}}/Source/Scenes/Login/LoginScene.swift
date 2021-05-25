@@ -9,20 +9,24 @@
 import UIKit.UIViewController
 import UIKit.UIStoryboard
 
-final class LoginScene: Scene {
+final class LoginScene {
+    // MARK: - Properties
     private let vc: LoginViewController!
+    
+    // MARK: - Init
     init(dependencies: Dependencies) {
-        let storyboard = UIStoryboard(name: "Login", bundle: nil)
-        vc = storyboard.instantiateInitialViewController() as? LoginViewController
-        vc.viewModel = dependencies.viewModel
-        vc.viewModel.coordinator = dependencies.coordinator
+        vc = LoginViewController.instantiate(
+            with: LoginViewModel(
+                coordinator: dependencies.coordinator
+            )
+        )
     }
 }
 
-extension LoginScene {
+// MARK: - Scene Protocol
+extension LoginScene: Scene {
     struct Dependencies {
         let coordinator: AnyCoordinatable<LoginRoute>
-        let viewModel: LoginViewModel
     }
 
     var viewController: UIViewController {

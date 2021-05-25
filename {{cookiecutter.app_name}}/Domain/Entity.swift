@@ -1,14 +1,13 @@
 //
-//  Endpoint.swift
-//  Platform
+//  Entity.swift
+//  Domain
 //
 //  Created by {{cookiecutter.lead_dev_name}} on {% now 'local' %}.
 //  Copyright © {% now 'local', '%Y' %} {{cookiecutter.company_name}} All rights reserved.
 //
 
-import Domain
+import Foundation
 
-protocol Endpoint {
-    var relativePath: String { get }
-    var headers: [String: String] { get }
+public protocol Entity {
+    var id: Int { get }
 }

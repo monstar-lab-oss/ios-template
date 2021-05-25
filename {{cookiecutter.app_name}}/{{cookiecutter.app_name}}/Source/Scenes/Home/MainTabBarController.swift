@@ -1,5 +1,5 @@
 //
-//  HomeTabBarController.swift
+//  MainTabBarController.swift
 //  {{cookiecutter.app_name}}
 //
 //  Created by {{cookiecutter.lead_dev_name}} on {% now 'local' %}.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeTabBarController: UITabBarController {
+class MainTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

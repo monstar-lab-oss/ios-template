@@ -34,9 +34,9 @@ enum App {
         static let hostname: String = {
             switch App.enivornment {
             case .develop:
-                return "dev-api.example.com"
+                return "jsonplaceholder.typicode.com"
             case .staging:
-                return "stg-api.example.com"
+                return "jsonplaceholder.typicode.com"
             case .production:
                 return "api.example.com"
             }

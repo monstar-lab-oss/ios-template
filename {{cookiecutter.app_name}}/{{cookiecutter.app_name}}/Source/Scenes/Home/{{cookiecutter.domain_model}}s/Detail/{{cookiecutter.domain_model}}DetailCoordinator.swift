@@ -6,20 +6,19 @@
 //  Copyright © {% now 'local', '%Y' %} {{cookiecutter.company_name}} All rights reserved.
 //
 
-import Combine
 import UIKit.UIViewController
 
-enum {{cookiecutter.domain_model}}DetailRoute {
-
-}
-
+// This Coordinator has no `enum Route`.
+// It literally means that this is the last screen and no further navigation is possible,
+// though you can go back. 😉
 class {{cookiecutter.domain_model}}DetailCoordinator: NavigationCoordinator {
-
-    struct SceneDependencies {
-        let {{cookiecutter.domain_model|lower}}Id: Int
-    }
+    // MARK: - Enums and Type aliases
+    typealias SceneDependencies = {{cookiecutter.domain_model}}DetailScene.Dependencies
+    
+    // MARK: - Properties
     private let sceneDependencies: SceneDependencies
-
+    
+    // MARK: - Init
     init(navigationController: UINavigationController, sceneDependencies: SceneDependencies) {
         self.sceneDependencies = sceneDependencies
         super.init(viewController: navigationController)
@@ -27,25 +26,11 @@ class {{cookiecutter.domain_model}}DetailCoordinator: NavigationCoordinator {
 
     override func start() {
         super.start()
-        show{{cookiecutter.domain_model}}Detail()
-    }
-
-    private func show{{cookiecutter.domain_model}}Detail() {
         let scene = {{cookiecutter.domain_model}}DetailScene(
             dependencies: .init(
-                coordinator: self.eraseToAnyCoordinatable(),
-                viewModel: {{cookiecutter.domain_model}}DetailViewModel(
-                    {{cookiecutter.domain_model|lower}}Id: sceneDependencies.{{cookiecutter.domain_model|lower}}Id
-                )
+                {{cookiecutter.domain_model|lower}}Id: sceneDependencies.{{cookiecutter.domain_model|lower}}Id
             )
         )
         self.navigationController.pushViewController(scene.viewController, animated: true)
-    }
-}
-
-extension {{cookiecutter.domain_model}}DetailCoordinator: Coordinatable {
-
-    func coordinate(to route: {{cookiecutter.domain_model}}DetailRoute) {
-
     }
 }

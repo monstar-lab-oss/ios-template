@@ -13,6 +13,10 @@ public class Network: Networking {
     public init(session: URLSession) {
         self.session = session
     }
+    
+    static let `default` = {
+        Network(session: URLSession.shared)
+    }()
 
     public func send(_ request: URLRequest, completion: @escaping (Result<Data, NetworkingError>) -> Void) {
         let task = session.dataTask(with: request) { data, response, error in

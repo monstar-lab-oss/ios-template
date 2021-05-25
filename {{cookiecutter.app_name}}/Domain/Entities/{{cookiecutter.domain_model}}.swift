@@ -8,20 +8,21 @@
 
 import Foundation
 
+public protocol {{cookiecutter.domain_model}}Entity: Entity {
+    // Required
+    var id: String { get }
+    var title: String { get }
+    // `Optional`s
+    var body: String? { get }
+}
+
+// Conformance to codable done here because it can not be done as extension. Proper place would be in the Platform module
 public struct {{cookiecutter.domain_model}}: Codable {
     // Required
     public let id: Int
     public let title: String
-    public let posterPath: String?
-    // Optionals
-    public private(set) var status: String?
-
-    public init(id: Int, title: String, posterPath: String?, status: String? = nil) {
-        self.id = id
-        self.title = title
-        self.posterPath = posterPath
-        self.status = status
-    }
+    // `Optional`s
+    public private(set) var body: String? = nil
 }
 
 extension {{cookiecutter.domain_model}}: Hashable {

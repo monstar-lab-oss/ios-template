@@ -15,33 +15,31 @@ final class {{cookiecutter.domain_model}}sRepository {
         case notFound
     }
 
-    private let repository: RemoteRepository<{{cookiecutter.domain_model}}sEndpoint>
+    private let repository: RemoteRepository<{{cookiecutter.domain_model}}>
 
-    init(repository: RemoteRepository<{{cookiecutter.domain_model}}sEndpoint>) {
+    init(repository: RemoteRepository<{{cookiecutter.domain_model}}>) {
         self.repository = repository
     }
 
     func fetch{{cookiecutter.domain_model}}s() -> AnyPublisher<[{{cookiecutter.domain_model}}], Error> {
         repository.queryPublisherForAll()
     }
-
-    func fetch{{cookiecutter.domain_model}}(with id: Int) -> AnyPublisher<{{cookiecutter.domain_model}}, Error> {
-        repository.queryPublisher(for: "id=\(id)")
-            .flatMap { items -> Result<{{cookiecutter.domain_model}}, Error>.Publisher in
-                guard !items.isEmpty else {
-                    return .init(CustomError.notFound)
-                }
-                return .init(items[0])
-            }.eraseToAnyPublisher()
+    
+    func fetch(withId id: Int) -> AnyPublisher<{{cookiecutter.domain_model}}, Error> {
+        repository.queryPublisher(forId: id)
+            .eraseToAnyPublisher()
     }
 
-    func search{{cookiecutter.domain_model}}(with name: String) -> AnyPublisher<[{{cookiecutter.domain_model}}], Error> {
-        repository.queryPublisher(for: "name=\(name)")
-            .flatMap { items -> Result<[{{cookiecutter.domain_model}}], Error>.Publisher in
-                guard !items.isEmpty else {
-                    return .init(CustomError.notFound)
-                }
-                return .init(items)
-            }.eraseToAnyPublisher()
+    func search(with query: String) -> AnyPublisher<[{{cookiecutter.domain_model}}], Error> {
+        repository.queryPublisher(forQueryItems: [
+            URLQueryItem(name: "query", value: query),
+            // URLQueryItem(name: "page", value: "\(page)")
+        ])
+        .flatMap { items -> Result<[{{cookiecutter.domain_model}}], Error>.Publisher in
+            guard !items.isEmpty else {
+                return .init(CustomError.notFound)
+            }
+            return .init(items)
+        }.eraseToAnyPublisher()
     }
 }
