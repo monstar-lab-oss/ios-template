@@ -18,7 +18,7 @@ public final class UseCaseProvider: Domain.UseCaseProvider {
 
     public func make{{cookiecutter.domain_model}}sUseCase() -> Domain.{{cookiecutter.domain_model}}sUseCase {
         {{cookiecutter.domain_model}}sUseCase(
-            repository: repositoryProvider.makePostsRepository()
+    repository: repositoryProvider.make{{cookiecutter.domain_model}}sRepository()
         )
     }
 }
