@@ -33,7 +33,7 @@ Open Terminal.
 
 1. find `#FIXME` comments
 2. Replace the text of REPLACE_PROJECT_NAME with your desired project name e.g. YOUR_PROJECT_NAME
-3, Replace the text of REPLACE_BUNDLE_ID_PREFIX with your desired project name e.g. REPLACE_BUNDLE_ID_PREFIX
+3. Replace the text of REPLACE_BUNDLE_ID_PREFIX with your desired project name e.g. REPLACE_BUNDLE_ID_PREFIX
 
 ### Run `Xcodegen` command 
 
