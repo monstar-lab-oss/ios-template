@@ -1,0 +1,6 @@
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+BUNDLE_IDENTIFIER = REPLACE_BUNDLE_ID.staging
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = STAGING
+APP_NAME = [STG]REPLACE_PROJECT_NAME

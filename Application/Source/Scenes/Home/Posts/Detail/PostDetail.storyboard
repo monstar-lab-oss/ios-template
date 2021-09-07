@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Hcy-Sm-6FS">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Post Detail View Controller-->
+        <scene sceneID="j36-JO-xbL">
+            <objects>
+                <viewController id="Hcy-Sm-6FS" customClass="PostDetailViewController" customModule="Template" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Bk5-rI-O5E"/>
+                        <viewControllerLayoutGuide type="bottom" id="KgL-3a-Zrm"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="9OH-kI-Odo">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="7bm-fj-dcz">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="7bm-fj-dcz" secondAttribute="trailing" id="5gA-rB-Gdj"/>
+                            <constraint firstItem="KgL-3a-Zrm" firstAttribute="top" secondItem="7bm-fj-dcz" secondAttribute="bottom" id="8oJ-Dq-uBQ"/>
+                            <constraint firstItem="7bm-fj-dcz" firstAttribute="leading" secondItem="9OH-kI-Odo" secondAttribute="leading" id="BuU-DP-Cqg"/>
+                            <constraint firstItem="7bm-fj-dcz" firstAttribute="top" secondItem="Bk5-rI-O5E" secondAttribute="bottom" id="XQu-DD-jed"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableHeaderView" destination="ne3-I2-bec" id="H7a-aG-5YL"/>
+                        <outlet property="tableView" destination="7bm-fj-dcz" id="ZY0-5p-mPy"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FMH-lS-njE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="ne3-I2-bec" customClass="PostDetailHeaderView" customModule="Template" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="401" height="150"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x05-lt-Ot0">
+                            <rect key="frame" x="15" y="10" width="366" height="43"/>
+                            <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="36"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J6Y-Vg-20D">
+                            <rect key="frame" x="15" y="66" width="366" height="26.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comments" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l2i-Xn-Oyh">
+                            <rect key="frame" x="298" y="109" width="83" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstItem="x05-lt-Ot0" firstAttribute="leading" secondItem="ne3-I2-bec" secondAttribute="leading" constant="15" id="GuP-QG-nFt"/>
+                        <constraint firstItem="J6Y-Vg-20D" firstAttribute="top" secondItem="x05-lt-Ot0" secondAttribute="bottom" constant="13" id="K27-5D-KKR"/>
+                        <constraint firstAttribute="trailing" secondItem="x05-lt-Ot0" secondAttribute="trailing" constant="20" id="YAn-ck-ta4"/>
+                        <constraint firstItem="J6Y-Vg-20D" firstAttribute="leading" secondItem="x05-lt-Ot0" secondAttribute="leading" id="Zsv-SU-Frd"/>
+                        <constraint firstAttribute="bottom" secondItem="l2i-Xn-Oyh" secondAttribute="bottom" constant="20" symbolic="YES" id="doU-cb-c7a"/>
+                        <constraint firstItem="J6Y-Vg-20D" firstAttribute="trailing" secondItem="x05-lt-Ot0" secondAttribute="trailing" id="nlN-Ak-fyk"/>
+                        <constraint firstAttribute="bottom" secondItem="J6Y-Vg-20D" secondAttribute="bottom" constant="57.5" id="qis-wV-8ob"/>
+                        <constraint firstAttribute="trailing" secondItem="l2i-Xn-Oyh" secondAttribute="trailing" constant="20" symbolic="YES" id="r9B-Eg-Due"/>
+                        <constraint firstItem="x05-lt-Ot0" firstAttribute="top" secondItem="ne3-I2-bec" secondAttribute="top" constant="10" id="ueA-af-ok4"/>
+                    </constraints>
+                    <connections>
+                        <outlet property="descriptionLabel" destination="J6Y-Vg-20D" id="YBy-BG-Nlj"/>
+                        <outlet property="titleLabel" destination="x05-lt-Ot0" id="YK1-hI-ktf"/>
+                    </connections>
+                </view>
+            </objects>
+            <point key="canvasLocation" x="118.84057971014494" y="67.633928571428569"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

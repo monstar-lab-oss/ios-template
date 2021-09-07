@@ -1,0 +1,184 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+FIREBASE_CLI_PATH = './node_modules/.bin/firebase'
+ALIAS_MAP = {
+  'alpha' => 'Develop',
+  'beta' => 'Staging',
+  'prod'=> 'Production' 
+}
+
+default_platform(:ios)
+
+platform :ios do
+  before_all do
+    # ensure_git_status_clean
+    setup_circle_ci
+  end
+
+  desc 'Run unit test.'
+  lane :test do
+    run_tests
+  end
+
+  # Alpha, Beta and Prod lanes are used so that we can use Gymfile configuration
+  desc 'Build alpha ipa'
+  lane :alpha do |options|
+    options[:environment] = "alpha"
+    build_deploy options
+  end
+
+  desc 'Build beta ipa'
+  lane :beta do |options|
+    options[:environment] = "beta"
+    build_deploy options
+  end
+
+  desc 'Build production ipa'
+  lane :prod do |options|
+    options[:environment] = "prod"
+    build_deploy options
+  end
+
+  desc 'Build and deploy ipa'
+  lane :build_deploy do |options|
+    # Check if any new commits since last release
+    is_releaseable = analyze_commits(match: "*#{options[:environment]}*")
+    unless is_releaseable
+      UI.important  "No changes since last one hence skipping build"
+      next
+    end
+    # Increment build number
+    increment_build_number(
+      build_number:  lane_context[SharedValues::RELEASE_NEXT_VERSION] # set a specific number
+    )
+    # if you can use `match`, you use `match`.
+    setup_provisioning_profiles
+    # Build deploy and release on github
+    build_app
+    deploy_app options
+    release_on_github
+  end
+
+  private_lane :deploy_app do |options|
+
+    notes = conventional_changelog(title: "Change Log", format: "plain")
+
+    environment = options[:environment]
+    gsp_path = "SupportingFiles/GoogleService/#{ALIAS_MAP[environment]}-Info.plist"
+    google_app_id = get_info_plist_value(path: gsp_path, key: 'GOOGLE_APP_ID')
+
+    firebase_app_distribution(
+      app: google_app_id,
+      # groups: tester_group,
+      release_notes: notes,
+      firebase_cli_path: FIREBASE_CLI_PATH
+    )
+
+    if environment == 'prod' 
+      download_dsyms(
+        version: 'latest'
+      )
+    end
+    
+    upload_symbols_to_crashlytics(gsp_path: gsp_path)
+    clean_build_artifacts
+  end
+
+  desc "Release on github"
+  private_lane :release_on_github do |options|
+    notes = conventional_changelog(title: "Change Log")
+
+    version_number = get_version_number
+    build_number = get_build_number
+
+    is_prerelease = true
+    release_type = get_release_type options
+    if release_type == "RELEASE"
+      is_prerelease = false
+    end
+
+    name =  "[#{release_type}] v#{version_number} Build: #{build_number}}"
+
+    set_github_release(
+      repository_name: "#{ENV['CIRCLE_PROJECT_USERNAME']}/#{ENV['CIRCLE_PROJECT_REPONAME']}",
+      name: name,
+      commitish: ENV['CIRCLE_SHA1'],
+      description: notes,
+      tag_name: "v#{version_number}/#{options[:environment]}/#{build_number}",
+      is_prerelease: is_prerelease,
+      upload_assets: [lane_context[SharedValues::IPA_OUTPUT_PATH]]
+    )
+  end
+
+  private_lane :get_release_type do |options|
+    next unless Helper.ci?
+    branch = ENV['CIRCLE_BRANCH']
+    release_type = "EXPERIMENTAL"
+    if branch == "master"
+      release_type = "RELEASE"
+    elsif branch == "develop"
+      release_type = "STAGING"
+    elsif branch.start_with? "feature/sprint"
+      release_type = "IN-HOUSE"
+    elsif branch.start_with? "release/"
+      release_type = "PRE-RELEASE"
+    elsif branch.start_with? "hotfix/"
+      release_type = "HOTFIX"      
+    end
+    release_type
+  end
+
+  private_lane :setup_provisioning_profiles do |options|
+    next unless Helper.ci?
+
+    if File.exists?("~/Libary/Keychains/#{ENV['MATCH_KEYCHAIN_NAME']}.keychain-db")
+      FileUtils.rm_f("~/Libary/Keychains/#{ENV['MATCH_KEYCHAIN_NAME']}.keychain-db")
+    end
+
+    create_keychain(
+      name: ENV['MATCH_KEYCHAIN_NAME'],
+      password: ENV["MATCH_KEYCHAIN_PASSWORD"],
+      unlock: true,
+      timeout: 3600,
+      default_keychain: true
+    )
+
+    `curl -OL https://developer.apple.com/certificationauthority/AppleWWDRCA.cer`
+    import_certificate(
+      keychain_name: ENV['MATCH_KEYCHAIN_NAME'],
+      keychain_password: ENV['MATCH_KEYCHAIN_PASSWORD'],
+      certificate_path: 'fastlane/AppleWWDRCA.cer'
+    )
+
+    `echo #{ENV["DIST_CER_BASE64"]} | base64 -D > dist.cer`
+    `echo #{ENV["DIST_KEY_BASE64"]} | base64 -D > dist.p12`
+
+    import_certificate(
+      keychain_name: ENV['MATCH_KEYCHAIN_NAME'],
+      keychain_password: ENV['MATCH_KEYCHAIN_PASSWORD'],
+      certificate_path: "fastlane/dist.p12",
+      certificate_password: ENV["DIST_KEY_PASSWORD"])
+    import_certificate(
+      keychain_name: ENV['MATCH_KEYCHAIN_NAME'],
+      keychain_password: ENV['MATCH_KEYCHAIN_PASSWORD'],
+      certificate_path: "fastlane/dist.cer")
+
+    Dir.glob('../profiles/*.mobileprovision').each {|filename|
+      puts filename
+      FastlaneCore::ProvisioningProfile.install(filename)
+    }
+  end
+end

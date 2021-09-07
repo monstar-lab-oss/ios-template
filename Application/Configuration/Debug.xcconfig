@@ -1,0 +1,7 @@
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+BUNDLE_IDENTIFIER = REPLACE_BUNDLE_ID.dev
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG
+OTHER_SWIFT_FLAGS = -Xfrontend -warn-long-function-bodies=100
+APP_NAME = [Dev]Template

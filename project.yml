@@ -1,0 +1,98 @@
+name: REPLACE_PROJECT_NAME #FIXME
+packages:
+  CombineCocoa:
+    url: https://github.com/CombineCommunity/CombineCocoa
+    from: 0.3.0
+  CombineExt:
+    url: https://github.com/CombineCommunity/CombineExt
+    from: 1.3.0
+  Firebase:
+    url: https://github.com/firebase/firebase-ios-sdk
+    from: 8.0.0
+configs:
+  Debug: debug
+  Staging: release
+  Release: release
+options:
+  bundleIdPrefix: REPLACE_BUNDLE_ID_PREFIX #FIXME
+  findCarthageFrameworks: true
+  deploymentTarget:
+    iOS: 13.0
+targets:
+  Domain:
+    type: framework
+    platform: iOS
+    sources:
+      - path: Domain
+    scheme:
+      testTargets:
+        - DomainTests
+      gatherCoverageData: false
+  DomainTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: DomainTests
+  Platform:
+    type: framework
+    platform: iOS
+    sources:
+      - path: Platform
+    scheme:
+      testTargets:
+        - PlatformTests
+      gatherCoverageData: false
+    dependencies: #FIXME if necessary
+      - target: Domain
+  PlatformTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: PlatformTests
+  Application:
+    type: application
+    platform: iOS
+    sources:
+      - path: Application
+    configFiles:
+      Debug: Application/Configuration/Debug.xcconfig
+      Staging: Application/Configuration/Staging.xcconfig
+      Release: Application/Configuration/Release.xcconfig
+    scheme:
+      testTargets:
+        - ApplicationTests
+      gatherCoverageData: false
+    dependencies: #FIXME if necessary
+      - target: Domain
+      - target: Platform
+      - package: CombineCocoa
+      - package: CombineExt
+    info:
+      path: Application/Resources/Info.plist
+      properties:
+        ITSAppUsesNonExemptEncryption: false
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        UILaunchStoryboardName: LaunchScreen
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+          UISceneConfigurations:
+            UIWindowSceneSessionRoleApplication:
+              - UISceneConfigurationName: Default Configuration
+                UISceneDelegateClassName: $(PRODUCT_MODULE_NAME).SceneDelegate
+    postCompileScripts:
+      - path: swiftlint.sh
+        name: Swiftlint
+    postBuildScripts:
+      - path: cp_googleservices_plist.sh
+        name: Copy GoogleServices-Info.plist
+      - path: firebase_crashlytics.sh
+        name: Firebase Crashlytics dSYM
+    settings:
+      FRAMEWORK_SEARCH_PATHS: 
+        - $(inherited)
+      DEVELOPMENT_TEAM: ABCDE12345  #FIXME
+  ApplicationTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: ApplicationTests

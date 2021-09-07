@@ -1,0 +1,32 @@
+# For more information about this configuration visit
+# https://docs.fastlane.tools/actions/gym/#gymfile
+
+# In general, you can use the options available
+# fastlane gym --help
+
+# Remove the # in front of the line to enable the option
+
+# scheme("Example")
+
+# sdk("iphoneos9.0")
+
+for_platform :ios do
+    
+    include_bitcode true
+    include_symbols true
+
+    for_lane :alpha do
+      scheme 'Application'
+      export_method 'development'
+    end
+
+    for_lane :beta do
+      scheme 'Application'
+      export_method 'ad-hoc'
+    end
+
+    for_lane :prod do
+      scheme 'Application'
+      export_method 'app-store'
+    end
+  end

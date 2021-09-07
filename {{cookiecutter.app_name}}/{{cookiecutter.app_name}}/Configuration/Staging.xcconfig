@@ -1,7 +1,0 @@
-// Configuration settings file format documentation can be found at:
-// https://help.apple.com/xcode/#/dev745c5c974
-#include "Pods/Target Support Files/Pods-{{cookiecutter.app_name}}/Pods-{{cookiecutter.app_name}}.staging.xcconfig"
-
-BUNDLE_IDENTIFIER = {{cookiecutter.bundle_identifier}}.staging
-SWIFT_ACTIVE_COMPILATION_CONDITIONS = STAGING
-APP_NAME = [STG]{{cookiecutter.app_name}}
