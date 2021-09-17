@@ -6,7 +6,7 @@ else [ $CONFIGURATION = "Staging" ];
     GOOGLE_SERVICE_PLIST_FILE=GoogleService-Info-Staging.plist
 fi
 # If file exist then source it or show error
-FILE_PATH="${PROJECT_DIR}/${PROJECT_NAME}/Resources/Firebase/${GOOGLE_SERVICE_PLIST_FILE}"
+FILE_PATH="${PROJECT_DIR}/Application/Resources/Firebase/${GOOGLE_SERVICE_PLIST_FILE}"
 echo $FILE_PATH
 if [ -f "$FILE_PATH" ]; then
     echo "Copying ${FILE_PATH} file for `${CONFIGURATION}` Configuration "
